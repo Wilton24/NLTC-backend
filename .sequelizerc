@@ -1,0 +1,25 @@
+// import path from 'path';
+
+// interface Paths {
+//   config: string;
+//   modelsPath: string;
+//   seedersPath: string;
+//   migrationsPath: string;
+// }
+
+// const paths: Paths = {
+//   config: path.resolve('database', 'config', 'config.js'),
+//   modelsPath: path.resolve('src', 'models'),
+//   seedersPath: path.resolve('database', 'seeders'),
+//   migrationsPath: path.resolve('database', 'migrations')
+// };
+
+// export default paths
+const path = require('path')
+
+module.exports = {
+  "config": path.resolve(__dirname, './database/config', 'config.js'),
+  "models-path": path.resolve(__dirname, 'src', 'models'),
+  "seeders-path": path.resolve(__dirname, 'database', 'seeders'),
+  "migrations-path": path.resolve(__dirname, './database/migrations')
+}
