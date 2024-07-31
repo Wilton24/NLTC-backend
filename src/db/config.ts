@@ -1,4 +1,8 @@
 import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 interface DatabaseConfig {
   username?: string;
   password?: string;
@@ -18,5 +22,16 @@ const config: DatabaseConfig = {
 };
 
 const dbConnection = new Sequelize(config);
+
+async function testConnection() {
+  try {
+    await dbConnection.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+};
+
+testConnection();
 
 export default dbConnection;
