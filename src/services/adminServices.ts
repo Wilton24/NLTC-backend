@@ -9,13 +9,18 @@ export const isUnique = async (email: string): Promise<boolean>=>{
       email: email
     }
   });
-
   return checkExistingEmail ? true : false;
 
-}
+};
 
+export async function checkUserAcc(email: string) {
+  const allAdmins = await getAdmins();
+  const user = allAdmins.find(user => user.email === email);
+  return user;
+}
 
 export const getAdmins = async () => {
   const allAdmins = await Admin.findAll();
   return allAdmins;
-}
+};
+
