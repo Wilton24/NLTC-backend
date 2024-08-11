@@ -22,6 +22,7 @@ export const registerUser = async (req: Request, res:Response): Promise<void> =>
       });
       return;
     };
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user : IUser = {
@@ -32,7 +33,8 @@ export const registerUser = async (req: Request, res:Response): Promise<void> =>
 
     const createUser = await createAdmin(user);
 
-    res.json(createUser).status(200);
+    res.status(200).json(createUser);
+
   } catch (error) {
     res.status(500).send(error);
   }
