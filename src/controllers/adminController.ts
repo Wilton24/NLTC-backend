@@ -27,6 +27,7 @@ export const createAdmin = async (userData:any): Promise<void>=>{
   // } 
   await Admin.create(userData).then(user => {
     console.log('User created:', user.toJSON());
+    return `user Created ${user}`
   })
   .catch(error => {
     console.error('Error creating user:', error);

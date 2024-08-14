@@ -10,6 +10,7 @@ interface DatabaseConfig {
   host?: string;
   port?: number;
   dialect: 'mariadb';
+  logging?: boolean | ((sql: string) => void);
 }
 
 const config: DatabaseConfig = {
@@ -19,6 +20,7 @@ const config: DatabaseConfig = {
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '3306', 10),
   dialect: 'mariadb',
+  logging: false,
 };
 
 const dbConnection = new Sequelize(config);
@@ -30,7 +32,7 @@ async function testConnection() {
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-};
+}
 
 testConnection();
 

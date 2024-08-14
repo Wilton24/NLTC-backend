@@ -10,11 +10,11 @@ export interface IUser {
   name?: string | undefined;
 }
 
-export const registerUser = async (req: Request, res:Response): Promise<void> =>{
+export const registerUser = async (req: Request, res:Response) =>{
   const {email, password, name} = req.body;
     
   try {
-    const checkExistingEmail = await isUnique(email);
+    const checkExistingEmail = await isUnique(email); // returns boolean depending on the email
     if(checkExistingEmail){
       res.status(409).json({
         "status": 409,

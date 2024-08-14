@@ -1,25 +1,29 @@
 import { Request, Response, NextFunction } from "express";
 import {isUnique, checkUserAcc} from "../services/adminServices";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
-export const login = async (req: Request, res:Response): Promise<void|Response> =>{
+export const login = async (req: Request, res: Response): Promise<void | Response> => {
+  const { email, password } = req.body;
+  const user = await checkUserAcc(email as string);
 
-  const {email, password} = req.body;
+  if (!user) {
+    return res.status(400).json({ message: 'Cannot find user' });
+  }
 
-  const users = await checkUserAcc(email as string);
-  if(users == null || users == undefined){
-     res.status(400).json({message: 'cannot find user'});
-  };
   try {
-    const match = await bcrypt.compare(password, users!.password);
-    if(match){      
-      res.status(200).send(users);
-    }  else {
+    const match = await bcrypt.compare(password, user.password);
+    if (match) {
+      const payload = { id: user.id, email: user.email };
+
+      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN as string);
+
+      return res.status(200).json({ accessToken });
+    } else {
       return res.status(401).json({ message: 'Incorrect password' });
     }
-    res.send(users).status(200);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
