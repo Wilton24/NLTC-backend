@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import {isUnique, checkUserAcc} from "../services/adminServices";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { generateAccessToken } from "../middlewares/authToken";
 
 
 export const login = async (req: Request, res: Response): Promise<void | Response> => {
@@ -17,8 +18,8 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
     if (match) {
       const payload = { id: user.id, email: user.email };
 
-      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN as string);
-
+      const accessToken = generateAccessToken(payload);
+      const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN as string);
       return res.status(200).json({ accessToken });
     } else {
       return res.status(401).json({ message: 'Incorrect password' });

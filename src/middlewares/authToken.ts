@@ -11,4 +11,9 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
     (req as any).user = user;
     next();
   });
+};
+
+
+export const generateAccessToken = (user: any) => {
+  return jwt.sign(user, process.env.ACCESS_TOKEN as string, { expiresIn: '1h' });
 }

@@ -20,6 +20,12 @@ app.use(cors());
 app.post('/login', login);
 app.post('/register', registerUser);
 
+
+// Server Testing routes (No Authentication);
+// app.get('/sample', (req: Request, res: Response)=>{
+//   res.send("Sample working :D")
+// });
+
 // app.post('/testing', async (req: Request, res: Response)=>{
 //   if(await bcrypt.compare(req.body.password, '$2b$10$em/rIE7A/wiRvyPhL39OMeJSyaX76ufgrx5HvbvLToWBan1tQH0ZC')){
 //     res.status(200).send('success');
@@ -36,9 +42,6 @@ app.get('/', (req: Request, res: Response)=>{
   res.send("Hello NLTC so much :D")
 })
 
-app.get('/sample', (req: Request, res: Response)=>{
-  res.send("Sample working :D")
-});
 
 app.listen(port, ()=>{
   console.log(`Server is running on port ${port}`);

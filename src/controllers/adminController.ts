@@ -24,13 +24,13 @@ export const createAdmin = async (userData:any): Promise<void>=>{
 
   // }catch(err: Error|any){
   //   console.log(err);    
-  // } 
+  // }
   await Admin.create(userData).then(user => {
     console.log('User created:', user.toJSON());
     return `user Created ${user}`
   })
   .catch(error => {
     console.error('Error creating user:', error);
-  });;
+  });
 }
 
