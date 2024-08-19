@@ -20,6 +20,14 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
 
       const accessToken = generateAccessToken(payload);
       const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN as string);
+
+      // Set the refresh token as an HttpOnly cookie
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+      });
+
       return res.status(200).json({ accessToken });
     } else {
       return res.status(401).json({ message: 'Incorrect password' });
