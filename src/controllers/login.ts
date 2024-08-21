@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
         sameSite: 'strict'
       });
 
-      return res.status(200).json({ accessToken });
+      return res.status(200).json({ accessToken, refreshToken });
     } else {
       return res.status(401).json({ message: 'Incorrect password' });
     }
