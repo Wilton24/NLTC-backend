@@ -29,21 +29,18 @@ app.get('/', (req: Request, res: Response)=>{
   res.send("Hello NLTC so much :D")
 });
 
+
+// Server Authentication routes;
+app.use(authenticateToken);
+
 // Server Testing routes (No Authentication);
 // app.get('/sample', (req: Request, res: Response)=>{
 //   res.send("Sample working :D")
 // });
 
-// app.post('/testing', async (req: Request, res: Response)=>{
-//   if(await bcrypt.compare(req.body.password, '$2b$10$em/rIE7A/wiRvyPhL39OMeJSyaX76ufgrx5HvbvLToWBan1tQH0ZC')){
-//     res.status(200).send('success');
-//   } else {
-//     res.status(400).send('fail');
-//   };
-// });
 
 app.use('/player', playerRoute);
-app.use('/admin', authenticateToken, adminRoute);
+app.use('/admin', adminRoute);
 
 app.get('/logout', (req: Request, res: Response)=>{
   res.clearCookie('refreshToken');

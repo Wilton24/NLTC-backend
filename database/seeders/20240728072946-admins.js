@@ -15,6 +15,11 @@ module.exports = {
         name: 'Wilton Batiquin',
         email: 'cbasher24@gmail.com',
         password: '12345678'
+      },
+      {
+        name: 'peanut',
+        email: 'misay@gg.com',
+        password: '$2b$10$GqEO.gUY8K.zjqPhLQrnVOVeQeOOzxrMxUiBrQoOt53VrDbsbf3kW'
       }
     ], {});
   },
