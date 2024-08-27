@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('admins', {
+    await queryInterface.createTable('players', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -13,14 +13,27 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      age: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      sex: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      contact_number: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        unique: true
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
+      profile_pic: {
+        type: Sequelize.STRING(255), // Limiting the length to 255 characters
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -30,13 +43,12 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW,
-        onUpdate: Sequelize.NOW,
+        defaultValue: Sequelize.NOW, // Automatically update this on each record update
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('admins');
+    await queryInterface.dropTable('players');
   }
 };
