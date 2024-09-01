@@ -10,13 +10,13 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
   const user = await checkUserAcc(email as string);
 
   if (!user) {
-    return res.status(400).json({ message: 'Cannot find user' });
+    return res.status(400).json({ message: 'Please input valid email' });
   }
 
   try {
     const match = await bcrypt.compare(password, user.password);
     if (match) {
-      const payload = { id: user.id, email: user.email };
+      const payload = { id: user.id, email: user.email, name: user.name };
 
       const accessToken = generateAccessToken(payload);
       const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN as string);
@@ -28,9 +28,11 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
         sameSite: 'strict'
       });
 
+      req.headers['Authorization'] = `Bearer ${accessToken}`
+
       return res.status(200).json({ accessToken, refreshToken });
     } else {
-      return res.status(401).json({ message: 'Incorrect password' });
+      return res.status(401).json({ message: 'Invalid credentials. Please try again.' });
     }
   } catch (error) {
     return res.status(500).send(error);

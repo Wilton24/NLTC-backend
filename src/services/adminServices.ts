@@ -10,7 +10,6 @@ export const isUnique = async (email: string): Promise<boolean>=>{
     }
   });
   return checkExistingEmail ? true : false;
-
 };
 
 export async function checkUserAcc(email: string) {   // Check if email exists, returns it if it does. returns undefined if it doesn't

@@ -50,22 +50,18 @@ app.get('/logout', (req: Request, res: Response)=>{
   res.sendStatus(200);
 });
 
-
-
-
-
 app.post('/refresh-token', (req, res) => {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken) {
     return res.status(401).send('No refresh token provided');
-  }
+  };
 
   // Verify the refresh token
   jwt.verify(refreshToken, refreshTokenSecret, (err : any, user: any) => {
     if (err) {
       return res.status(403).send('Invalid refresh token');
-    }
+    };
 
     // Generate a new access token
     const accessToken = generateAccessToken({id: user.id, email: user.email});
