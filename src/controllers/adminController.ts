@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
 import { isUnique, getAdmins } from '../services/adminServices';
 import Admin from '../models/Admin';
-import { IUser } from './register';
+
 
 export const getAllAdmin = async (req: Request, res:Response): Promise<void>=>{
   try {
