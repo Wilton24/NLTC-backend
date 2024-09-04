@@ -23,3 +23,12 @@ export const getAdmins = async () => {
   return allAdmins;
 };
 
+export const getAdminSrvcs = async (id: number) : Promise<any> => {
+  const admin = await Admin.findOne({
+      where: {
+        id
+      }
+    }
+  );
+  return admin;
+}

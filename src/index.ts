@@ -42,8 +42,9 @@ app.get('/', (req: Request, res: Response)=>{
 //   };
 // });
 
+app.use(authenticateToken);
 app.use('/player', playerRoute);
-app.use('/admin', authenticateToken, adminRoute);
+app.use('/admin', adminRoute);
 
 app.get('/logout', (req: Request, res: Response)=>{
   res.clearCookie('refreshToken');

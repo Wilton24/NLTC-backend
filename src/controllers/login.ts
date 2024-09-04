@@ -11,7 +11,7 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
 
   if (!user) {
     return res.status(400).json({ message: 'Please input valid email' });
-  }
+  };
 
   try {
     const match = await bcrypt.compare(password, user.password);
@@ -28,9 +28,9 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
         sameSite: 'strict'
       });
 
-      req.headers['Authorization'] = `Bearer ${accessToken}`
+      res.header('authorization', `Bearer ${accessToken}`);
 
-      return res.status(200).json({ accessToken, refreshToken });
+      return res.status(200).json({ accessToken, refreshToken, user: user.email });
     } else {
       return res.status(401).json({ message: 'Invalid credentials. Please try again.' });
     }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { isUnique, getAdmins } from '../services/adminServices';
+import { getAdmins, getAdminSrvcs } from '../services/adminServices';
 import Admin from '../models/Admin';
 
 
@@ -11,7 +11,7 @@ export const getAllAdmin = async (req: Request, res:Response): Promise<void>=>{
     console.log(err);
     res.status(500).send(err.message);
   }
-}
+};
 
 export const createAdmin = async (userData:any): Promise<void>=>{
   // const {email, password} = req.body;
@@ -26,10 +26,21 @@ export const createAdmin = async (userData:any): Promise<void>=>{
   // }
   await Admin.create(userData).then(user => {
     console.log('User created:', user.toJSON());
-    return `user Created ${user}`
+    return `user Created ${user}`;
   })
   .catch(error => {
     console.error('Error creating user:', error);
   });
-}
+};
+
+export const getAdmin = async(req: Request, res:Response, next: NextFunction)=>{
+  const id : number = parseInt(req.params.id);
+  try{
+    const admin = await getAdminSrvcs(id);
+    if(!admin) return res.status(404).json({message: 'Admin not found'});
+    res.status(200).json(admin);
+  }catch(err: Error | unknown){
+    console.log(err);
+  }
+};
 
