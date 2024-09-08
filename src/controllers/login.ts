@@ -30,7 +30,7 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
 
       res.header('authorization', `Bearer ${accessToken}`);
 
-      return res.status(200).json({ accessToken, refreshToken, user: user.email });
+      return res.status(200).json({ accessToken, refreshToken, user: user.id });
     } else {
       return res.status(401).json({ message: 'Invalid credentials. Please try again.' });
     }

@@ -8,6 +8,7 @@ import {registerUser} from './controllers/register';
 import { authenticateToken, generateAccessToken } from './middlewares/authToken';
 import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser';
+import { authenticateAdmin } from './middlewares/role';
 
 const app = express();
 
@@ -28,6 +29,13 @@ app.post('/register', registerUser);
 app.get('/', (req: Request, res: Response)=>{
   res.send("Hello NLTC so much :D")
 });
+
+// app.post('/getToken', (req: Request, res: Response)=>{
+//   const tokenSecret = process.env.ACCESS_TOKEN as string;
+//   const decoded = req.body.token;
+//   const decodedToken = jwt.verify(decoded, tokenSecret);
+//   res.send(decodedToken);
+// });
 
 // Server Testing routes (No Authentication);
 // app.get('/sample', (req: Request, res: Response)=>{

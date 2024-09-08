@@ -1,7 +1,4 @@
-import { all } from "axios";
 import Admin from "../models/Admin";
-import { IAdmin } from "../types";
-
 
 export const isUnique = async (email: string): Promise<boolean>=>{
   const checkExistingEmail = await Admin.findOne({
@@ -24,7 +21,7 @@ export const getAdmins = async () => {
 };
 
 export const getAdminSrvcs = async (id: number) : Promise<any> => {
-  const admin = await Admin.findOne({
+  const admin : object | null = await Admin.findOne({
       where: {
         id
       }
