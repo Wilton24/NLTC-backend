@@ -28,9 +28,7 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
         sameSite: 'strict'
       });
 
-      res.header('authorization', `Bearer ${accessToken}`);
-
-      return res.status(200).json({ accessToken, refreshToken, user: user.id });
+      return res.status(200).json({ accessToken, refreshToken, user: user.id, name: user.name });
     } else {
       return res.status(401).json({ message: 'Invalid credentials. Please try again.' });
     }
