@@ -8,15 +8,20 @@ import {registerUser} from './controllers/register';
 import { authenticateToken, generateAccessToken } from './middlewares/authToken';
 import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser';
-import { authenticateAdmin } from './middlewares/role';
-
-const app = express();
+import multer from "multer";
 
 dotenv.config();
-
+const app = express();
+const port = process.env.PORT || 5000;
 const refreshTokenSecret = process.env.REFRESH_TOKEN as string;
 
-const port = process.env.PORT || 5000;
+const upload = multer({dest: './uploads/'});
+
+app.post('/profile', upload.single('avatar'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+})
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -30,25 +35,6 @@ app.get('/', (req: Request, res: Response)=>{
   res.send("Hello NLTC so much :D")
 });
 
-// app.post('/getToken', (req: Request, res: Response)=>{
-//   const tokenSecret = process.env.ACCESS_TOKEN as string;
-//   const decoded = req.body.token;
-//   const decodedToken = jwt.verify(decoded, tokenSecret);
-//   res.send(decodedToken);
-// });
-
-// Server Testing routes (No Authentication);
-// app.get('/sample', (req: Request, res: Response)=>{
-//   res.send("Sample working :D")
-// });
-
-// app.post('/testing', async (req: Request, res: Response)=>{
-//   if(await bcrypt.compare(req.body.password, '$2b$10$em/rIE7A/wiRvyPhL39OMeJSyaX76ufgrx5HvbvLToWBan1tQH0ZC')){
-//     res.status(200).send('success');
-//   } else {
-//     res.status(400).send('fail');
-//   };
-// });
 
 app.use(authenticateToken);
 app.use('/player', playerRoute);
