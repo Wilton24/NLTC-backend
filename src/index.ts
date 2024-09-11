@@ -9,18 +9,24 @@ import { authenticateToken, generateAccessToken } from './middlewares/authToken'
 import jwt from "jsonwebtoken";
 import cookieParser from 'cookie-parser';
 import multer from "multer";
+import path from "path";
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 const refreshTokenSecret = process.env.REFRESH_TOKEN as string;
 
-const upload = multer({dest: './uploads/'});
-
-app.post('/profile', upload.single('avatar'), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads') 
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
 })
+
+const upload = multer({storage});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,6 +40,12 @@ app.post('/register', registerUser);
 app.get('/', (req: Request, res: Response)=>{
   res.send("Hello NLTC so much :D")
 });
+
+app.post('/profile', upload.single('avatar'), function (req: Request, res: Response, next: NextFunction) {
+
+  res.status(200).json(req.file);
+});
+
 
 
 app.use(authenticateToken);
