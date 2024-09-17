@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from "express";
 
 
@@ -32,5 +31,22 @@ export function deletePlayer(req: Request, res: Response){
 }
 
 export const createPlayer = (req: Request, res: Response)=>{
-  const payload = req.body;
-}
+  const { name, age, sex, contact_number, email, password } = req.body;
+  const profile_pic = req.file;
+
+  const newPlayer = {
+    name,
+    age,
+    sex,
+    contact_number,
+    email,
+    password,
+  };
+  try{
+    res.status(200).json(newPlayer);
+  } catch(err: Error | any){
+    console.log(err);
+    
+  }
+
+};
