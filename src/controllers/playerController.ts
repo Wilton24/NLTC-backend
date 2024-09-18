@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import multer from "multer";
+import { storage } from "../middlewares/multerConfig";
 
-
+const upload = multer({storage});
 
 const players = [
   {
@@ -30,9 +32,13 @@ export function deletePlayer(req: Request, res: Response){
   const id = req.params.id;
 }
 
-export const createPlayer = (req: Request, res: Response)=>{
+export const createPlayer = async (req: Request, res: Response)=>{
   const { name, age, sex, contact_number, email, password } = req.body;
-  const profile_pic = req.file;
+
+      if (!req.file) {
+        return res.status(400).json({ message: 'Profile picture is required' });
+      }
+
 
   const newPlayer = {
     name,
@@ -41,6 +47,7 @@ export const createPlayer = (req: Request, res: Response)=>{
     contact_number,
     email,
     password,
+    profile_pic: req.file.filename
   };
   try{
     res.status(200).json(newPlayer);
@@ -48,5 +55,4 @@ export const createPlayer = (req: Request, res: Response)=>{
     console.log(err);
     
   }
-
 };
