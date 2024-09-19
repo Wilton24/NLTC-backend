@@ -8,7 +8,7 @@ const router = express.Router();
 // Player routes 
 router.get('/players', getPlayers);
 router.get('/players/:id', getOnePlayer);
-router.post('/players', handleProfilePicUpload, createPlayer);
+router.post('/players',handleProfilePicUpload, createPlayer);
 router.delete('/players/:id', deletePlayer);
 
 router.get('/sample', async(req: Request, res: Response)=>{
